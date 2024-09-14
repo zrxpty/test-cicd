@@ -6,14 +6,24 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print message
-        run: echo "Hello, this is a simple text output!"
-
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Connect to server and run commands
+        env:
+          SERVER_USER: root
+          SERVER_IP: ${{ secrets.IP_VPS }}
+          SERVER_PASSWORD: ${{ secrets.VDS_PASSWORD }}
+        run: |
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+          echo "Connected to the server using password!"
+          cd /
+          mkdir qweqweqweqweqweqweqw
+          EOF
+
       - name: Print deploy message
         run: echo "Deploy job running!"
