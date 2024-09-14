@@ -10,24 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass
-
-      - name: Print environment variable QWE
-        run: echo "QWE variable: ${{ secrets.QWE }}"
-
-      - name: Connect to server and run commands
-        env:
-          SERVER_USER: root
-          SERVER_IP: ${{ secrets.IP_VPS }}
-          SERVER_PASSWORD: ${{ secrets.VDS_PASSWORD }}
-        run: |
-          echo "Attempting to connect to $SERVER_IP as $SERVER_USER"
-          sshpass -p "$SERVER_PASSWORD" ssh -T -o StrictHostKeyChecking=no -o ConnectTimeout=10 -v $SERVER_USER@$SERVER_IP << 'EOF'
-          echo "Connected to the server using password!"
-          cd /
-          mkdir qweqweqweqweqweqweqw
-          EOF
-
-      - name: Print deploy message
-        run: echo "Deploy job running!"
+      - name: Set up SSH Key and Deploy my App on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_VPS }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }} # Optional, remove if not used
+          port: 22
+          script: |
+            cd /
+            mkdir qweqweqweqweqweqweqwe
