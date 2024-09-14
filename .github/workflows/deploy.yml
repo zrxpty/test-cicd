@@ -13,15 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Set up SSH Key and Deploy my App on Server
+        uses: appleboy/ssh-action@0.1.0 # Убедитесь, что версия актуальна
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Deploy my App on Server
-        run: |
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.IP_VPS }} << 'EOF'
-            cd /
+          host: ${{ secrets.IP_VPS }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: 22
+          script: |
+            cd /path/to/your/directory
             mkdir -p qweqweqweqweqweqweqw
             # Добавьте свои команды деплоя здесь
-          EOF
