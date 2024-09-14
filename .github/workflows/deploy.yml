@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Connect to Ubuntu Server
 
 on:
   push:
@@ -6,22 +6,19 @@ on:
       - main
 
 jobs:
-  deploy:
+  ssh:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH Key and Deploy my App on Server
-        uses: appleboy/ssh-action@0.1.0 # Убедитесь, что версия актуальна
+      - name: Connect to Ubuntu server via SSH
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.IP_VPS }}
-          username: root
+          username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          port: 22
           script: |
-            cd /path/to/your/directory
-            mkdir -p qweqweqweqweqweqweqw
-            # Добавьте свои команды деплоя здесь
+            echo "Connected successfully!"
+            # Добавьте сюда команды, которые нужно выполнить на удаленном сервере
