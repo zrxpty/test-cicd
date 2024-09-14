@@ -21,4 +21,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Connected successfully!"
-            # Добавьте сюда команды, которые нужно выполнить на удаленном сервере
+            cd /
+            mkdir qweqweqweqweqweqweqwe
