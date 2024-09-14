@@ -13,13 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
-
-      - name: Deploy my App on Server
-        run: |
-          sshpass -p ${{ secrets.SSH_PASSPHRASE }} ssh -o StrictHostKeyChecking=no root@${{ secrets.IP_VPS }} << 'EOF'
+      - name: Set up SSH Key and Deploy my App on Server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.IP_VPS }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
             cd /path/to/your/directory
             mkdir -p qweqweqweqweqweqweqw
             # Add your deployment commands here
-          EOF
