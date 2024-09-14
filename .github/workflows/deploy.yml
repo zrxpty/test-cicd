@@ -13,13 +13,17 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
+      - name: Print environment variable QWE
+        run: echo "QWE variable: ${{ secrets.QWE }}"
+
       - name: Connect to server and run commands
         env:
           SERVER_USER: root
           SERVER_IP: ${{ secrets.IP_VPS }}
           SERVER_PASSWORD: ${{ secrets.VDS_PASSWORD }}
         run: |
-          sshpass -p "$SERVER_PASSWORD" ssh -T -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+          echo "Attempting to connect to $SERVER_IP as $SERVER_USER"
+          sshpass -p "$SERVER_PASSWORD" ssh -T -o StrictHostKeyChecking=no -o ConnectTimeout=10 -v $SERVER_USER@$SERVER_IP << 'EOF'
           echo "Connected to the server using password!"
           cd /
           mkdir qweqweqweqweqweqweqw
