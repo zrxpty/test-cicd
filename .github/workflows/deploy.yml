@@ -1,4 +1,4 @@
-name: Deploy to Server NetIT
+name: Deploy to Server
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     steps:
       - name: Print message
         run: echo "Hello, this is a simple text output!"
